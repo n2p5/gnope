@@ -7,6 +7,7 @@ import (
 	"gno.land/p/demo/ownable"
 	"gno.land/p/demo/ownable/exts/authorizable"
 	"gno.land/p/demo/ufmt"
+	"gno.land/p/n2p5/mgroup"
 )
 
 const (
@@ -14,113 +15,87 @@ const (
 )
 
 var (
-	ownerGroup   = authorizable.NewAuthorizableWithAddress(originalOwner)
-	adminGroup   = authorizable.NewAuthorizableWithAddress(originalOwner)
-	ownerTracker = newMemberTrackeWithAddress(originalOwner)
-	adminTracker = newMemberTrackeWithAddress(originalOwner)
+	adminGroup = mgroup.New(originalOwner)
 	claims       = avl.NewTree()
 )
 
-type memberTracker struct {
-	members *avl.Tree
-}
-
-func newMemberTrackeWithAddress(addr std.Address) *memberTracker {
-	mt := &memberTracker{
-		members: avl.NewTree(),
-	}
-	mt.addMember(addr)
-	return mt
-}
-
-func (mt *memberTracker) addMember(addr std.Address) {
-	mt.members.Set(addr.String(), struct{}{})
-}
-
-func (mt *memberTracker) removeMember(addr std.Address) {
-	mt.members.Remove(addr.String())
-}
-
-func (mt *memberTracker) toList() []string {
-	members := make([]string, mt.members.Size())
-	for i := 0; i < mt.members.Size(); i++ {
-		k, _ := mt.members.GetByIndex(i)
-		members[i] = k
-	}
-	return members
-}
-
+// AddBackupOwner adds a backup owner to the Owner Group.
+// A backup owner can claim ownership of the contract.
 func AddBackupOwner(addr std.Address) {
-	ownerGroup.AssertCallerIsOwner()
-	ownerGroup.AddToAuthList(addr)
-	ownerTracker.addMember(addr)
+	err := adminGroup.AddBackupOwner(addr)
+	if err != nil {
+		panic(err)
+	}
 }
 
+// RemoveBackupOwner removes a backup owner from the Owner Group.
+// The primary owner cannot be removed.
 func RemoveBackupOwner(addr std.Address) {
-	ownerGroup.AssertCallerIsOwner()
-	if addr == ownerGroup.Owner() {
-		panic("cannot remove owner")
+	err := adminGroup.RemoveBackupOwner(addr)
+	if err != nil {
+		panic(err)
 	}
-	ownerGroup.DeleteFromAuthList(addr)
-	ownerTracker.removeMember(addr)
 }
 
+// ClaimOwnership allows an authorized user in the ownerGroup
+// to claim ownership of the contract.
 func ClaimOwnership() {
-	ownerGroup.AssertOnAuthList()
-	caller := std.PrevRealm().Addr()
-	ownerGroup.Ownable = ownable.NewWithAddress(caller)
-	adminGroup.Ownable = ownable.NewWithAddress(caller)
-}
-
-func AddAdmin(addr std.Address) {
-	ownerGroup.AssertCallerIsOwner()
-	adminGroup.AddToAuthList(addr)
-	adminTracker.addMember(addr)
-}
-
-func RemoveAdmin(addr std.Address) {
-	ownerGroup.AssertCallerIsOwner()
-	if addr == ownerGroup.Owner() {
-		panic("cannot remove owner")
+	err := adminGroup.ClaimOwnership()
+	if err != nil {
+		panic(err)
 	}
-	adminGroup.DeleteFromAuthList(addr)
-	adminTracker.removeMember(addr)
 }
+
+// AddAdmin adds an admin to the Admin Group.
+func AddAdmin(addr std.Address) {
+	err := adminGroup.AddMember(addr)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// RemoveAdmin removes an admin from the Admin Group.
+// The primary owner cannot be removed.
+func RemoveAdmin(addr std.Address) {
+	err := adminGroup.RemoveMember(addr)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// CurrentOwner returns the current owner of the claims contract.
+func CurrentOwner() std.Address {
+	return adminGroup.Owner()
+}
+
+func IsAdmin(addr std.Address) bool {
+	return adminGroup.IsMember(addr)
+}
+
+func getBackupOwners() []string {
+	return adminGroup.BackupOwners()
+}
+
 
 func Render(path string) string {
 
 	description := getDescription()
-	ownerMembers := markDownList(ownerTracker.toList())
-	adminMembers := markDownList(adminTracker.toList())
+	primaryOwner := adminGroup.Owner().String()
+	backupOwners := markDownList(adminGroup.BackupOwners())
+	adminMembers := markDownList(adminGroup.Members())
 
 	return ufmt.Sprintf(`
 # Claims
-
 %s
 
 ## Authorized Users
-**owners**:
+**primary owner**: %s
+primary: %s
 %s
 
 **admins**:
 %s
 
 
-`, description, ownerMembers, adminMembers)
-}
-
-func getDescription() string {
-	value, exists := claims.Get("description")
-	if !exists {
-		return "Welcome to my claims page. "
-	}
-	return value.(string)
-}
-
-func markDownList(items []string) string {
-	var result string
-	for _, item := range items {
-		result += "- " + item + "\n"
-	}
-	return result
+`, description, primaryOwner, backupOwners, adminMembers)
 }
