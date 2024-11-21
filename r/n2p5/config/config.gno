@@ -1,11 +1,8 @@
-package claims
+package config
 
 import (
 	"std"
 
-	"gno.land/p/demo/avl"
-	"gno.land/p/demo/ownable"
-	"gno.land/p/demo/ownable/exts/authorizable"
 	"gno.land/p/demo/ufmt"
 	"gno.land/p/n2p5/mgroup"
 )
@@ -16,7 +13,7 @@ const (
 
 var (
 	adminGroup = mgroup.New(originalOwner)
-	claims       = avl.NewTree()
+	description = ""
 )
 
 // AddBackupOwner adds a backup owner to the Owner Group.
@@ -63,39 +60,61 @@ func RemoveAdmin(addr std.Address) {
 	}
 }
 
-// CurrentOwner returns the current owner of the claims contract.
-func CurrentOwner() std.Address {
+// Owner returns the current owner of the claims contract.
+func Owner() std.Address {
 	return adminGroup.Owner()
 }
 
+// BackupOwners returns the current backup owners of the claims contract.
+func BackupOwners() []string {
+	return adminGroup.BackupOwners()
+}
+
+// Admins returns the current admin members of the claims contract.
+func Admins() []string {
+	return adminGroup.Members()
+}
+
+// IsAdmin checks if an address is in the config adminGroup.
 func IsAdmin(addr std.Address) bool {
 	return adminGroup.IsMember(addr)
 }
 
-func getBackupOwners() []string {
-	return adminGroup.BackupOwners()
+// toMarkdownList formats a slice of strings as a markdown list.
+func toMarkdownList(items []string) string {
+	var result string
+	for _, item := range items {
+		result += ufmt.Sprintf("- %s\n", item)
+	}
+	return result
 }
 
-
 func Render(path string) string {
-
-	description := getDescription()
-	primaryOwner := adminGroup.Owner().String()
-	backupOwners := markDownList(adminGroup.BackupOwners())
-	adminMembers := markDownList(adminGroup.Members())
-
+	owner := adminGroup.Owner().String()
+	backupOwners := toMarkdownList(BackupOwners())
+	adminMembers := toMarkdownList(Admins())
 	return ufmt.Sprintf(`
-# Claims
+# Config Dashboard
+
+This dashboard shows the current configuration owner, backup owners, and admin members.
+- The owner has the exclusive ability to manage the backup owners and admin members.
+- Backup owners can claim ownership of the contract.
+- Admin members are used to authorize actions in other realms, such as [my home realm](/r/n2p5/home).
+
+#### Owner
+
 %s
 
-## Authorized Users
-**primary owner**: %s
-primary: %s
+#### Backup Owners
+
 %s
 
-**admins**:
+#### Admin Members
+
 %s
 
-
-`, description, primaryOwner, backupOwners, adminMembers)
+`,
+		owner,
+		backupOwners,
+		adminMembers,)
 }
