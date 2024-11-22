@@ -3,13 +3,14 @@ package home
 import (
 	"std"
 	"strings"
+
 	"gno.land/p/n2p5/chonk"
-	
+
 	"gno.land/r/n2p5/config"
 )
 
 var (
-	active = chonk.New()
+	active  = chonk.New()
 	preview = chonk.New()
 )
 

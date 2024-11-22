@@ -12,7 +12,7 @@ const (
 )
 
 var (
-	adminGroup = mgroup.New(originalOwner)
+	adminGroup  = mgroup.New(originalOwner)
 	description = ""
 )
 
@@ -98,7 +98,7 @@ func Render(path string) string {
 
 This dashboard shows the current configuration owner, backup owners, and admin members.
 - The owner has the exclusive ability to manage the backup owners and admin members.
-- Backup owners can claim ownership of the contract.
+- Backup owners can claim ownership of the contract and become the owner.
 - Admin members are used to authorize actions in other realms, such as [my home realm](/r/n2p5/home).
 
 #### Owner
@@ -116,5 +116,5 @@ This dashboard shows the current configuration owner, backup owners, and admin m
 `,
 		owner,
 		backupOwners,
-		adminMembers,)
+		adminMembers)
 }

@@ -332,75 +332,75 @@ func TestManagedGroup(t *testing.T) {
 func TestSliceWithOffset(t *testing.T) {
 	t.Parallel()
 	testTable := []struct {
-		name   string
-		slice  []string
-		offset int
-		count  int
-		expected []string
+		name          string
+		slice         []string
+		offset        int
+		count         int
+		expected      []string
 		expectedCount int
 	}{
 		{
-			name:   "empty",
-			slice:  []string{},
-			offset: 0,
-			count:  0,
-			expected: []string{},
+			name:          "empty",
+			slice:         []string{},
+			offset:        0,
+			count:         0,
+			expected:      []string{},
 			expectedCount: 0,
 		},
 		{
-			name:   "single",
-			slice:  []string{"a"},
-			offset: 0,
-			count:  1,
-			expected: []string{"a"},
+			name:          "single",
+			slice:         []string{"a"},
+			offset:        0,
+			count:         1,
+			expected:      []string{"a"},
 			expectedCount: 1,
 		},
 		{
-			name:   "single offset",
-			slice:  []string{"a"},
-			offset: 1,
-			count:  1,
-			expected: []string{},
+			name:          "single offset",
+			slice:         []string{"a"},
+			offset:        1,
+			count:         1,
+			expected:      []string{},
 			expectedCount: 0,
 		},
 		{
-			name:   "multiple",
-			slice:  []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
-			offset: 0,
-			count:  10,
-			expected: []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
+			name:          "multiple",
+			slice:         []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
+			offset:        0,
+			count:         10,
+			expected:      []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
 			expectedCount: 10,
 		},
 		{
-			name:   "multiple offset",
-			slice:  []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
-			offset: 5,
-			count:  5,
-			expected: []string{"f", "g", "h", "i", "j"},
+			name:          "multiple offset",
+			slice:         []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
+			offset:        5,
+			count:         5,
+			expected:      []string{"f", "g", "h", "i", "j"},
 			expectedCount: 5,
 		},
 		{
-			name:   "multiple offset end",
-			slice:  []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
-			offset: 10,
-			count:  5,
-			expected: []string{},
+			name:          "multiple offset end",
+			slice:         []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
+			offset:        10,
+			count:         5,
+			expected:      []string{},
 			expectedCount: 0,
 		},
 		{
-			name:   "multiple offset past end",
-			slice:  []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
-			offset: 11,
-			count:  5,
-			expected: []string{},
+			name:          "multiple offset past end",
+			slice:         []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
+			offset:        11,
+			count:         5,
+			expected:      []string{},
 			expectedCount: 0,
 		},
 		{
-			name:   "multiple offset count past end",
-			slice:  []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
-			offset: 5,
-			count:  20,
-			expected: []string{"f", "g", "h", "i", "j"},
+			name:          "multiple offset count past end",
+			slice:         []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
+			offset:        5,
+			count:         20,
+			expected:      []string{"f", "g", "h", "i", "j"},
 			expectedCount: 5,
 		},
 	}

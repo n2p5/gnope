@@ -1,22 +1,22 @@
-// Package chonk provides a simple way to store arbitrarily large strings 
+// Package chonk provides a simple way to store arbitrarily large strings
 // in a linked list across transactions for efficient storage and retrieval.
 // A Chonk support three operations: Add, Flush, and Scanner.
-// - Add appends a string to the Chonk. 
-// - Flush clears the Chonk. 
+// - Add appends a string to the Chonk.
+// - Flush clears the Chonk.
 // - Scanner is used to iterate over the chunks in the Chonk.
-package chonk 
+package chonk
 
-// Chonk is a linked list string storage and 
+// Chonk is a linked list string storage and
 // retrieval system for fine bois.
 type Chonk struct {
-	first  *chunk
-	last   *chunk
+	first *chunk
+	last  *chunk
 }
 
 // chunk is a linked list node for Chonk
 type chunk struct {
-	text  string
-	next  *chunk
+	text string
+	next *chunk
 }
 
 // New creates a reference to a new Chonk
@@ -58,7 +58,7 @@ func (c *Chonk) Scanner() *Scanner {
 // to iterate over the chunks in a Chonk from first to last.
 type Scanner struct {
 	current *chunk
-	next *chunk
+	next    *chunk
 }
 
 // Scan advances the scanner to the next chunk. It returns
@@ -74,10 +74,11 @@ func (s *Scanner) Scan() bool {
 
 // Text returns the current chunk. It is only valid to call
 // this method after a call to Scan returns true. Expected usage:
-//	scanner := chonk.Scanner()
-// 		for scanner.Scan() {
-//     		fmt.Println(scanner.Text())
-// 		}
+//
+//		scanner := chonk.Scanner()
+//			for scanner.Scan() {
+//	    		fmt.Println(scanner.Text())
+//			}
 func (s *Scanner) Text() string {
 	return s.current.text
 }

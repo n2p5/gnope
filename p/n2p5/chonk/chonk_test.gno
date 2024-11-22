@@ -4,32 +4,31 @@ import (
 	"testing"
 )
 
-
 func TestChonk(t *testing.T) {
 	t.Parallel()
 	c := New()
 	testTable := []struct {
-		name string
+		name   string
 		chunks []string
 	}{
 		{
-			name: "empty",
+			name:   "empty",
 			chunks: []string{},
 		},
 		{
-			name: "single chunk",
+			name:   "single chunk",
 			chunks: []string{"a"},
 		},
 		{
-			name: "multiple chunks",
+			name:   "multiple chunks",
 			chunks: []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
 		},
 		{
-			name: "multiline chunks",
+			name:   "multiline chunks",
 			chunks: []string{"1a\nb\nc\n\n", "d\ne\nf", "g\nh\ni", "j\nk\nl\n\n\n\n"},
 		},
 		{
-			name: "empty",
+			name:   "empty",
 			chunks: []string{},
 		},
 	}

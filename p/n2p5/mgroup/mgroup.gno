@@ -3,7 +3,7 @@
 // the owner, backup owners, and members of a group. The owner is the primary
 // owner of the group and can add and remove backup owners and members. Backup
 // owners can claim ownership of the group. This is meant to provide backup
-// accounts for the owner in case the owner account is lost or compromised. 
+// accounts for the owner in case the owner account is lost or compromised.
 // Members are used to authorize actions across realms.
 package mgroup
 
@@ -156,7 +156,6 @@ func (g *ManagedGroup) Members() []string {
 	return g.MembersWithOffset(0, g.MemberCount())
 }
 
-
 // BackupOwnersWithOffset returns a slice of backup owners in the group, using the underlying
 // avl.Tree to iterate over the backup owners. The offset and count parameters allow you
 // to iterate over backup owners in chunks to support patterns such as pagination.
@@ -164,7 +163,7 @@ func (g *ManagedGroup) BackupOwnersWithOffset(offset, count int) []string {
 	return sliceWithOffset(g.backupOwners, offset, count)
 }
 
-// MembersWithOffset returns a slice of members in the group, using the underlying 
+// MembersWithOffset returns a slice of members in the group, using the underlying
 // avl.Tree to iterate over the members. The offset and count parameters allow you
 // to iterate over members in chunks to support patterns such as pagination.
 func (g *ManagedGroup) MembersWithOffset(offset, count int) []string {
