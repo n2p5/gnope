@@ -6,6 +6,7 @@ import (
 
 	"gno.land/p/n2p5/chonk"
 
+	"gno.land/r/leon/hof"
 	"gno.land/r/n2p5/config"
 )
 
@@ -13,6 +14,10 @@ var (
 	active  = chonk.New()
 	preview = chonk.New()
 )
+
+func init() {
+	hof.Register()
+}
 
 // Add appends a string to the preview Chonk.
 func Add(chunk string) {
@@ -34,7 +39,8 @@ func Promote() {
 	preview = chonk.New()
 }
 
-// Render returns the contents of the active Chonk.
+// Render returns the contents of the scanner for the active or preview Chonk
+// based on the path provided.
 func Render(path string) string {
 	var result string
 	scanner := getScanner(path)
