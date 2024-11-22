@@ -135,24 +135,36 @@ func (g *ManagedGroup) Owner() std.Address {
 	return g.owner.Owner()
 }
 
-// BackupOwners returns a slice of all backup owners in the group.
+// BackupOwners returns a slice of all backup owners in the group, using the underlying
+// avl.Tree to iterate over the backup owners. If you have a large group, you may
+// want to use BackupOwnersWithOffset to iterate over backup owners in chunks.
 func (g *ManagedGroup) BackupOwners() []string {
 	return g.BackupOwnersWithOffset(0, g.BackupOwnerCount())
 }
 
-// Members returns a slice of all members in the group.
+// Members returns a slice of all members in the group, using the underlying
+// avl.Tree to iterate over the members. If you have a large group, you may
+// want to use MembersWithOffset to iterate over members in chunks.
 func (g *ManagedGroup) Members() []string {
 	return g.MembersWithOffset(0, g.MemberCount())
 }
 
+
+// BackupOwnersWithOffset returns a slice of backup owners in the group, using the underlying
+// avl.Tree to iterate over the backup owners. The offset and count parameters allow you
+// to iterate over backup owners in chunks to support patterns such as pagination.
 func (g *ManagedGroup) BackupOwnersWithOffset(offset, count int) []string {
 	return sliceWithOffset(g.backupOwners, offset, count)
 }
 
+// MembersWithOffset returns a slice of members in the group, using the underlying 
+// avl.Tree to iterate over the members. The offset and count parameters allow you
+// to iterate over members in chunks to support patterns such as pagination.
 func (g *ManagedGroup) MembersWithOffset(offset, count int) []string {
 	return sliceWithOffset(g.members, offset, count)
 }
 
+// sliceWithOffset is a helper function to iterate over an avl.Tree with an offset and count.
 func sliceWithOffset(t *avl.Tree, offset, count int) []string {
 	var result []string
 	t.IterateByOffset(offset, count, func(k string, _ interface{}) bool {
