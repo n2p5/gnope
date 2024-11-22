@@ -1,3 +1,10 @@
+// Package mgroup is a simple managed group managing ownership and membership
+// for authorization in gno realms. The ManagedGroup struct is used to manage
+// the owner, backup owners, and members of a group. The owner is the primary
+// owner of the group and can add and remove backup owners and members. Backup
+// owners can claim ownership of the group. This is meant to provide backup
+// accounts for the owner in case the owner account is lost or compromised. 
+// Members are used to authorize actions across realms.
 package mgroup
 
 import (

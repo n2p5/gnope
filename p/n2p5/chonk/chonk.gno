@@ -1,7 +1,13 @@
+// Package chonk provides a simple way to store arbitrarily large strings 
+// in a linked list across transactions for efficient storage and retrieval.
+// A Chonk support three operations: Add, Flush, and Scanner.
+// - Add appends a string to the Chonk. 
+// - Flush clears the Chonk. 
+// - Scanner is used to iterate over the chunks in the Chonk.
 package chonk 
 
 // Chonk is a linked list string storage and 
-// retreival system for fine bois.
+// retrieval system for fine bois.
 type Chonk struct {
 	first  *chunk
 	last   *chunk
@@ -71,7 +77,7 @@ func (s *Scanner) Scan() bool {
 //	scanner := chonk.Scanner()
 // 		for scanner.Scan() {
 //     		fmt.Println(scanner.Text())
-// 		} 	
+// 		}
 func (s *Scanner) Text() string {
 	return s.current.text
 }
