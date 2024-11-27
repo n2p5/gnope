@@ -1,0 +1,32 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define a style for the hover effect -->
+  <style>
+    circle {
+      transition: r 2s;
+    }
+    circle:hover {
+      r: 100;
+    }
+  </style>
+
+    <circle cx="100" cy="100" r="50" fill="blue">
+      <!-- Animate radius on mouseover -->
+      <animate
+        attributeName="r"
+        from="50"
+        to="100"
+        dur="2s"
+        begin="mouseover"
+        fill="freeze"
+      />
+      <!-- Animate radius back to original on mouseout -->
+      <animate
+        attributeName="r"
+        from="100"
+        to="50"
+        dur="2s"
+        begin="mouseout"
+        fill="freeze"
+      />
+    </circle>
+</svg>

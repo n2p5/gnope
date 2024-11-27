@@ -4,22 +4,6 @@ Gno Personal Experiments
 
 This is my personal repo for experimentation in [gno.land](https://gno.land).
 
+![test](x/testdata/testing.svg)
 
-### Claims
-
-Claims represent a simple KV store of claims made by the owner.
-
-**key**
-
-raw claim
-```
-deadbeaf
-```
-
-
-decoded
-```
-value.
-```
-
-**key**
+![clickable](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIERlZmluZSBhIHN0eWxlIGZvciB0aGUgaG92ZXIgZWZmZWN0IC0tPgogIDxzdHlsZT4KICAgIGNpcmNsZSB7CiAgICAgIHRyYW5zaXRpb246IHIgMnM7CiAgICB9CiAgICBjaXJjbGU6aG92ZXIgewogICAgICByOiAxMDA7CiAgICB9CiAgPC9zdHlsZT4KCiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJibHVlIj4KICAgICAgPGFuaW1hdGUgYXR0cmlidXRlVHlwZT0iWE1MIiBhdHRyaWJ1dGVOYW1lPSJyIiBiZWdpbj0ibW91c2VvdmVyIiBmcm9tPSI1MCIgdG89IjEwMCIgZHVyPSIycyIgIC8+CiAgICA8L2NpcmNsZT4KPC9zdmc+)
