@@ -5,3 +5,4 @@ This page may look simple now, but its built using a little tool I built called 
 ### Links you might find useful
 - my github [n2p5](https://github.com/n2p5)
 - my podcast [Book Overflow](https://www.youtube.com/@bookoverflowpod)
+- my personal [website](https://n.2p5.xyz)
