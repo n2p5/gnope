@@ -64,7 +64,7 @@ function promote() {
 
 function flush() {
     gnokey maketx call -pkgpath "gno.land/r/n2p5/home" \
-        -func "Promote" -gas-fee 1000000ugnot \
+        -func "Flush" -gas-fee 1000000ugnot \
         -gas-wanted 5000000 -send "" \
         -broadcast -chainid "portal-loop" \
         -remote https://rpc.gno.land:443 \
