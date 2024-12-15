@@ -25,3 +25,5 @@ go.work.sum
 .env
 
 scratch.txt
+
+.DS_Store
