@@ -4,6 +4,59 @@ import (
 	"time"
 )
 
+type EventReader interface {
+	ID() string
+	Name() string
+	Status() string
+	Description() string
+	StartDate() time.Time
+	EndDate() time.Time
+	Locations() []Location
+	Tracks() []Tracks
+	GetTicket() *Ticket
+}
+
+type Ticket struct {
+	// TBD
+}
+
+type Status uint
+
+const ()
+
+type EventManger interface {
+	Update()
+	IssueTicket(addr string) (*Ticket, error)
+	UpdateStatus() error
+	Cancel(reason string) error
+}
+
+type option func(e *Event)
+
+func New(options ...option) *Event {
+
+}
+
+type Event struct {
+	ID          string
+	Name        string
+	Description string
+	StartDate   time.Time
+	EndDate     time.Time
+	Locations   []Location
+	Tracks      []Track
+	Settings    EventSettings
+}
+
+type OnlineEvent struct {
+	id          string
+	name        string
+	description string
+	startDate   time.Time
+	endDate     time.Time
+	metadata    map[string]string
+}
+
 // Speaker represents a session presenter or panelist
 type Speaker struct {
 	id      string
@@ -20,15 +73,6 @@ type Session struct {
 	EndTime     time.Time
 	Speakers    []Speaker
 	Room        Room
-	Tags        []string
-}
-
-// Track represents a themed collection of sessions
-type Track struct {
-	ID          string
-	Name        string
-	Description string
-	Sessions    []Session
 	Tags        []string
 }
 
